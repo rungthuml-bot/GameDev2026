@@ -1,0 +1,8 @@
+{
+  "name": "game-dev-prototype",
+  "version": "1.0.0",
+  "description": "Game Dev Prototype local server",
+  "scripts": {
+    "dev": "node server.js"
+  }
+}
