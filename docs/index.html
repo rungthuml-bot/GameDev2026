@@ -3,904 +3,361 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Game Dev 2026 - รวมโปรเจกต์เกมจากวิชา Game Development 2026">
-  <title>Game Dev 2026 — Lab Portal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta name="description" content="Computer Game Development 2026 — รวมผลงาน Lab ทั้งหมด">
+  <title>Computer Game Development 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
     :root {
-      --blue-50: #eff6ff;
-      --blue-100: #dbeafe;
-      --blue-200: #bfdbfe;
-      --blue-300: #93c5fd;
-      --blue-400: #60a5fa;
-      --blue-500: #3b82f6;
-      --blue-600: #2563eb;
-      --blue-700: #1d4ed8;
-      --blue-800: #1e40af;
-      --blue-900: #1e3a8a;
-      --blue-950: #0f1d3d;
-      --sky-300: #7dd3fc;
-      --sky-400: #38bdf8;
-      --sky-500: #0ea5e9;
-      --cyan-400: #22d3ee;
-      --slate-100: #f1f5f9;
-      --slate-200: #e2e8f0;
-      --slate-300: #cbd5e1;
-      --slate-400: #94a3b8;
-      --slate-500: #64748b;
-      --slate-700: #334155;
-      --slate-800: #1e293b;
-      --slate-900: #0f172a;
+      --bg: #0a0e1a; --surface: #111827; --surface2: #1a2236;
+      --border: rgba(99,102,241,0.12); --border-hover: rgba(99,102,241,0.35);
+      --text: #e2e8f0; --text-dim: #94a3b8; --text-muted: #64748b;
+      --accent: #6366f1; --accent-light: #818cf8; --accent-glow: rgba(99,102,241,0.15);
+      --cyan: #22d3ee; --emerald: #34d399;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Outfit', 'Noto Sans Thai', sans-serif;
-      background: var(--slate-900);
-      color: var(--slate-100);
-      min-height: 100vh;
-      overflow-x: hidden;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; overflow-x: hidden;
     }
 
-    /* ── Animated Background ── */
-    .bg-animation {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
+    /* ── Background ── */
+    .bg-glow {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(99,102,241,0.1), transparent),
+        radial-gradient(ellipse 500px 500px at 80% 70%, rgba(34,211,238,0.06), transparent);
     }
-
-    .bg-animation::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.12) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 20%, rgba(14,165,233,0.1) 0%, transparent 50%),
-                  radial-gradient(ellipse at 40% 80%, rgba(34,211,238,0.06) 0%, transparent 50%);
-      animation: bgShift 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes bgShift {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      100% { transform: translate(-5%, 3%) rotate(3deg); }
-    }
-
-    /* ── Floating Particles ── */
-    .particles {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0;
-      animation: floatUp linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% {
-        opacity: 0;
-        transform: translateY(100vh) scale(0);
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-10vh) scale(1);
-      }
-    }
-
-    /* ── Grid Pattern Overlay ── */
-    .grid-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+    .grid-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image:
-        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
+        linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
     }
+
+    /* ── Layout ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 10; }
 
     /* ── Header ── */
-    header {
-      position: relative;
-      z-index: 10;
-      padding: 2rem 1.5rem 0;
-    }
-
-    .header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      color: inherit;
-    }
-
+    header { padding: 2rem 0; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; }
     .logo-icon {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--blue-500), var(--sky-400));
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+      width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--accent), var(--cyan)); font-size: 1.3rem;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.3);
+    }
+    .logo-text { font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em; }
+    .logo-text span { background: linear-gradient(135deg, var(--accent-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .badge-pill {
+      padding: 0.35rem 0.9rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500;
+      background: var(--accent-glow); border: 1px solid var(--border); color: var(--accent-light);
     }
 
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: -0.02em;
+    /* ── Hero ── */
+    .hero { text-align: center; padding: 4rem 0 3rem; }
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1.1rem;
+      background: var(--accent-glow); border: 1px solid var(--border); border-radius: 999px;
+      font-size: 0.82rem; color: var(--accent-light); margin-bottom: 1.25rem;
     }
+    .hero-chip .dot { width: 7px; height: 7px; background: var(--emerald); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
 
-    .logo-text span {
-      background: linear-gradient(135deg, var(--blue-400), var(--cyan-400));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .hero h1 { font-size: clamp(2.2rem,5.5vw,3.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .hero h1 .grad { background: linear-gradient(135deg, var(--accent-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.05rem; color: var(--text-dim); max-width: 520px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
 
-    .nav-badge {
-      padding: 0.4rem 1rem;
-      background: rgba(59,130,246,0.1);
-      border: 1px solid rgba(59,130,246,0.2);
-      border-radius: 999px;
-      font-size: 0.8rem;
-      color: var(--blue-300);
-      font-weight: 500;
-      letter-spacing: 0.04em;
-    }
+    .hero-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 2rem; }
+    .stat-val { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
 
-    /* ── Hero Section ── */
-    .hero {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      padding: 5rem 1.5rem 3rem;
-    }
+    /* ── Section Heading ── */
+    .section-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-top: 1rem; }
+    .section-head h2 { font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
+    .section-head .line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-hover), transparent); }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1.25rem;
-      background: rgba(59,130,246,0.08);
-      border: 1px solid rgba(59,130,246,0.15);
-      border-radius: 999px;
-      font-size: 0.85rem;
-      color: var(--sky-300);
-      margin-bottom: 1.5rem;
-      animation: fadeInDown 0.6s ease-out;
-    }
+    /* ── Lab Cards ── */
+    .labs { display: flex; flex-direction: column; gap: 1rem; padding-bottom: 3rem; }
 
-    .hero-badge .dot {
-      width: 8px;
-      height: 8px;
-      background: var(--sky-400);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-      animation: fadeInUp 0.7s ease-out 0.1s both;
-    }
-
-    .hero h1 .gradient {
-      background: linear-gradient(135deg, var(--blue-400), var(--sky-400), var(--cyan-400));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 1.15rem;
-      color: var(--slate-400);
-      max-width: 560px;
-      margin: 0 auto 2rem;
-      line-height: 1.7;
-      font-weight: 300;
-      animation: fadeInUp 0.7s ease-out 0.2s both;
-    }
-
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      animation: fadeInUp 0.7s ease-out 0.3s both;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 1.75rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--blue-300), var(--sky-400));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--slate-500);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-top: 0.2rem;
-    }
-
-    /* ── Section Title ── */
-    .section-title {
-      position: relative;
-      z-index: 10;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      animation: fadeInUp 0.7s ease-out 0.4s both;
-    }
-
-    .section-title h2 {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--slate-200);
-    }
-
-    .section-title .line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(59,130,246,0.3), transparent);
-    }
-
-    .section-title .count {
-      font-size: 0.85rem;
-      color: var(--slate-500);
-      font-weight: 400;
-    }
-
-    /* ── Lab Cards Grid ── */
-    .labs-grid {
-      position: relative;
-      z-index: 10;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem 4rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 1.5rem;
-      animation: fadeInUp 0.7s ease-out 0.5s both;
-    }
-
-    /* ── Lab Card ── */
     .lab-card {
-      position: relative;
-      background: linear-gradient(145deg, rgba(30,41,59,0.8), rgba(15,23,42,0.9));
-      border: 1px solid rgba(59,130,246,0.1);
-      border-radius: 20px;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
+      display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem 1.5rem;
+      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      border: 1px solid var(--border); border-radius: 16px;
+      text-decoration: none; color: inherit; cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     }
-
-    .lab-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(59,130,246,0.2), transparent 40%, transparent 60%, rgba(14,165,233,0.2));
-      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      mask-composite: exclude;
-      -webkit-mask-composite: xor;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
     .lab-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(59,130,246,0.3);
-      box-shadow:
-        0 20px 40px rgba(0,0,0,0.3),
-        0 0 60px rgba(59,130,246,0.08),
-        inset 0 1px 0 rgba(255,255,255,0.03);
+      border-color: var(--border-hover); transform: translateX(6px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 40px var(--accent-glow);
     }
 
-    .lab-card:hover::before {
-      opacity: 1;
+    .lab-num {
+      width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent), #4f46e5);
+      box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+    }
+    .lab-num.dim { background: linear-gradient(135deg, var(--surface2), #1e293b); color: var(--text-muted); box-shadow: none; border: 1px solid var(--border); }
+
+    .lab-info { flex: 1; min-width: 0; }
+    .lab-info h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .lab-info p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+    .lab-info .sub-badge {
+      display: inline-block; padding: 0.15rem 0.55rem; margin-left: 0.4rem;
+      background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 6px; font-size: 0.68rem; color: var(--cyan); font-weight: 500; vertical-align: middle;
     }
 
-    .card-thumbnail {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--blue-950), var(--slate-900));
+    .lab-arrow {
+      width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      background: var(--accent-glow); color: var(--accent-light); flex-shrink: 0; transition: all 0.3s ease;
     }
+    .lab-card:hover .lab-arrow { background: rgba(99,102,241,0.25); transform: translateX(3px); }
+    .lab-arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    .card-thumbnail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    .lab-card.disabled { opacity: 0.5; cursor: default; }
+    .lab-card.disabled:hover { transform: none; box-shadow: none; border-color: var(--border); }
+    .coming { font-size: 0.72rem; color: var(--text-muted); font-style: italic; }
 
-    .lab-card:hover .card-thumbnail img {
-      transform: scale(1.08);
-    }
-
-    .card-thumbnail .overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 40%, rgba(15,23,42,0.95) 100%);
-      pointer-events: none;
-    }
-
-    .card-thumbnail .play-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
-      width: 64px;
-      height: 64px;
-      background: rgba(59,130,246,0.85);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 30px rgba(59,130,246,0.4);
-    }
-
-    .play-btn svg {
-      width: 24px;
-      height: 24px;
-      fill: white;
-      margin-left: 3px;
-    }
-
-    .lab-card:hover .play-btn {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .card-thumbnail .lab-number {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      padding: 0.35rem 0.85rem;
-      background: rgba(59,130,246,0.2);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(59,130,246,0.3);
-      border-radius: 8px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sky-300);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .card-body {
-      padding: 1.25rem 1.5rem 1.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-body h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--slate-100);
-      letter-spacing: -0.01em;
-    }
-
-    .card-body .description {
-      font-size: 0.9rem;
-      color: var(--slate-400);
-      line-height: 1.6;
-      margin-bottom: 1rem;
-      flex: 1;
-    }
-
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
+    /* ── Tags ── */
+    .tags { display: flex; gap: 0.4rem; margin-top: 0.4rem; flex-wrap: wrap; }
     .tag {
-      padding: 0.25rem 0.7rem;
-      background: rgba(59,130,246,0.08);
-      border: 1px solid rgba(59,130,246,0.12);
-      border-radius: 6px;
-      font-size: 0.75rem;
-      color: var(--blue-300);
-      font-weight: 500;
+      padding: 0.15rem 0.55rem; border-radius: 5px; font-size: 0.68rem; font-weight: 500;
+      background: var(--accent-glow); border: 1px solid var(--border); color: var(--accent-light);
     }
 
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 1rem;
-      border-top: 1px solid rgba(59,130,246,0.08);
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
 
-    .card-footer .engine {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      color: var(--slate-500);
+    .modal-box {
+      background: linear-gradient(145deg, var(--surface), var(--bg));
+      border: 1px solid var(--border-hover); border-radius: 20px; padding: 2rem;
+      max-width: 480px; width: 90%;
+      transform: translateY(16px) scale(0.96); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 60px var(--accent-glow);
     }
+    .modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
 
-    .engine-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--blue-400);
-      border-radius: 50%;
+    .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+    .modal-head h3 { font-size: 1.25rem; font-weight: 700; }
+    .modal-close {
+      width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
+      background: transparent; color: var(--text-dim); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; transition: all 0.2s;
     }
+    .modal-close:hover { background: var(--accent-glow); color: var(--text); }
+    .modal-desc { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem; }
 
-    .card-footer .play-label {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--blue-400);
-      transition: gap 0.3s ease;
+    .modal-opts { display: flex; flex-direction: column; gap: 0.75rem; }
+    .modal-opt {
+      display: flex; align-items: center; gap: 1rem; padding: 1.1rem;
+      background: rgba(99,102,241,0.04); border: 1px solid var(--border); border-radius: 14px;
+      text-decoration: none; color: inherit; transition: all 0.3s ease;
     }
-
-    .lab-card:hover .play-label {
-      gap: 0.7rem;
+    .modal-opt:hover {
+      background: rgba(99,102,241,0.1); border-color: var(--border-hover);
+      transform: translateX(4px); box-shadow: 0 6px 20px rgba(0,0,0,0.2);
     }
-
-    .play-label svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-      transition: transform 0.3s ease;
+    .opt-icon {
+      width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--accent), #4f46e5); font-size: 1.2rem; flex-shrink: 0;
     }
-
-    .lab-card:hover .play-label svg {
-      transform: translateX(3px);
-    }
+    .opt-info { flex: 1; }
+    .opt-info h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .opt-info p { font-size: 0.78rem; color: var(--text-dim); }
+    .opt-arrow { color: var(--accent-light); transition: transform 0.3s; }
+    .modal-opt:hover .opt-arrow { transform: translateX(3px); }
+    .opt-arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* ── Footer ── */
-    footer {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      padding: 2rem 1.5rem 3rem;
-      border-top: 1px solid rgba(59,130,246,0.08);
-    }
-
-    footer p {
-      font-size: 0.85rem;
-      color: var(--slate-500);
-      font-weight: 300;
-    }
-
-    footer a {
-      color: var(--blue-400);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-
-    footer a:hover {
-      color: var(--sky-400);
-    }
+    footer { text-align: center; padding: 2rem 0 3rem; border-top: 1px solid var(--border); }
+    footer p { font-size: 0.82rem; color: var(--text-muted); }
+    footer a { color: var(--accent-light); text-decoration: none; }
 
     /* ── Animations ── */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .anim { animation: fadeUp 0.5s ease-out both; }
+    .anim-d1 { animation-delay: .1s } .anim-d2 { animation-delay: .2s }
+    .anim-d3 { animation-delay: .3s } .anim-d4 { animation-delay: .35s }
+    .anim-d5 { animation-delay: .4s } .anim-d6 { animation-delay: .45s }
+    .anim-d7 { animation-delay: .5s } .anim-d8 { animation-delay: .55s }
 
     /* ── Responsive ── */
     @media (max-width: 640px) {
-      .hero {
-        padding: 3rem 1rem 2rem;
-      }
-
-      .hero-stats {
-        gap: 1.5rem;
-      }
-
-      .labs-grid {
-        grid-template-columns: 1fr;
-        padding: 0 1rem 3rem;
-      }
-
-      .header-inner {
-        flex-direction: column;
-        gap: 0.75rem;
-      }
+      .hero { padding: 2.5rem 0 2rem; }
+      .hero-stats { gap: 1.5rem; }
+      .lab-card { flex-direction: column; text-align: center; padding: 1.25rem; }
+      .lab-arrow { display: none; }
+      .header-inner { flex-direction: column; gap: .75rem; }
+      .modal-box { padding: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Animated Background -->
-  <div class="bg-animation"></div>
-  <div class="grid-overlay"></div>
-  <div class="particles" id="particles"></div>
+  <div class="bg-glow"></div>
+  <div class="grid-bg"></div>
 
   <!-- Header -->
   <header>
-    <div class="header-inner">
-      <a href="#" class="logo">
-        <div class="logo-icon">🎮</div>
-        <div class="logo-text"><span>GameDev</span> 2026</div>
-      </a>
-      <div class="nav-badge">📚 Lab Collection</div>
+    <div class="container">
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <div class="logo-icon">🎮</div>
+          <div class="logo-text"><span>GameDev</span> 2026</div>
+        </a>
+        <div class="badge-pill">📚 Lab Collection</div>
+      </div>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="hero">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      Game Development Course
-    </div>
-    <h1>
-      <span class="gradient">Game Dev</span><br>
-      Lab Portal
-    </h1>
-    <p>
-      รวมโปรเจกต์เกมทั้งหมดจากวิชา Game Development 2026 
-      สร้างด้วย Godot Engine — เล่นได้ทันทีบนเว็บบราวเซอร์
-    </p>
+  <section class="hero container anim">
+    <div class="hero-chip"><span class="dot"></span> Computer Game Development</div>
+    <h1><span class="grad">Game Dev</span><br>Lab Portfolio</h1>
+    <p>นายรุ่งธรรม ล้อมในเมือง — รหัสนักศึกษา 663380639-0<br>สร้างด้วย Godot Engine เล่นได้บนเว็บ</p>
     <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-value">7</div>
-        <div class="stat-label">Labs</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">Godot</div>
-        <div class="stat-label">Engine</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">Web</div>
-        <div class="stat-label">Platform</div>
-      </div>
+      <div><div class="stat-val">6</div><div class="stat-lbl">Labs</div></div>
+      <div><div class="stat-val">Godot</div><div class="stat-lbl">Engine</div></div>
+      <div><div class="stat-val">Web</div><div class="stat-lbl">Platform</div></div>
     </div>
   </section>
 
-  <!-- Section Title -->
-  <div class="section-title">
-    <h2>🕹️ Lab Projects</h2>
-    <div class="line"></div>
-    <span class="count">7 projects</span>
-  </div>
+  <!-- Labs List -->
+  <section class="container">
+    <div class="section-head anim anim-d2">
+      <h2>🕹️ Lab Projects</h2>
+      <div class="line"></div>
+    </div>
 
-  <!-- Labs Grid -->
-  <div class="labs-grid">
+    <div class="labs">
 
-    <!-- Lab 01 Card -->
-    <a href="lab01/Lab01.html" class="lab-card" id="lab01-card">
-      <div class="card-thumbnail">
-        <img src="lab01/Lab01.png" alt="Lab 01 Preview">
-        <div class="overlay"></div>
-        <div class="lab-number">Lab 01</div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <!-- Lab 1 -->
+      <a href="lab01/Lab01.html" class="lab-card anim anim-d3" id="lab01-card">
+        <div class="lab-num">01</div>
+        <div class="lab-info">
+          <h3>แนะนำตัวเอง</h3>
+          <p>โปรเจกต์แรก — แนะนำตัวเองผ่าน Godot Engine</p>
+          <div class="tags"><span class="tag">Godot 4</span><span class="tag">2D</span><span class="tag">Web Export</span></div>
         </div>
-      </div>
-      <div class="card-body">
-        <h3>Lab 01 — First Project</h3>
-        <p class="description">
-          โปรเจกต์เกมแรกจากวิชา Game Development เรียนรู้พื้นฐานการสร้างเกมด้วย Godot Engine
-        </p>
-        <div class="card-tags">
-          <span class="tag">Godot 4</span>
-          <span class="tag">2D Game</span>
-          <span class="tag">Web Export</span>
-        </div>
-        <div class="card-footer">
-          <div class="engine">
-            <span class="engine-dot"></span>
-            Godot Engine
-          </div>
-          <div class="play-label">
-            เล่นเกม
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
+        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      </a>
 
-    <!-- Lab 02-1 Card -->
-    <a href="lab02-1/game21.html" class="lab-card" id="lab02-1-card">
-      <div class="card-thumbnail">
-        <img src="lab02-1/game21.png" alt="Lab 02-1 Preview">
-        <div class="overlay"></div>
-        <div class="lab-number">Lab 02-1</div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <!-- Lab 2 -->
+      <div class="lab-card anim anim-d4" id="lab02-card" onclick="openModal()">
+        <div class="lab-num">02</div>
+        <div class="lab-info">
+          <h3>My First 2D Game <span class="sub-badge">2 ภารกิจ</span></h3>
+          <p>เกม 2D แรก — แบ่งเป็น 2 ภารกิจ (2.1 & 2.2)</p>
+          <div class="tags"><span class="tag">Godot 4</span><span class="tag">2D Game</span><span class="tag">Instancing</span></div>
         </div>
+        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
-      <div class="card-body">
-        <h3>Lab 02-1 — Instancing</h3>
-        <p class="description">
-          เรียนรู้การใช้ Instancing ในการสร้าง Object ซ้ำๆ และควบคุมคุณสมบัติแบบ Dynamic ใน Godot Engine
-        </p>
-        <div class="card-tags">
-          <span class="tag">Godot 4</span>
-          <span class="tag">2D Scene</span>
-          <span class="tag">Instancing</span>
-        </div>
-        <div class="card-footer">
-          <div class="engine">
-            <span class="engine-dot"></span>
-            Godot Engine
-          </div>
-          <div class="play-label">
-            เล่นเกม
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
 
-    <!-- Lab 02-2 Card -->
-    <a href="lab02-2/Lab02-2.html" class="lab-card" id="lab02-2-card">
-      <div class="card-thumbnail">
-        <div class="overlay"></div>
-        <div class="lab-number">Lab 02-2</div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <!-- Lab 3 -->
+      <div class="lab-card disabled anim anim-d5" id="lab03-card">
+        <div class="lab-num dim">03</div>
+        <div class="lab-info">
+          <h3>Lab 03</h3>
+          <p class="coming">🔒 Coming Soon — จะอัปเดตเมื่อมีผลงาน</p>
         </div>
+        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
-      <div class="card-body">
-        <h3>Lab 02-2</h3>
-        <p class="description">
-          Lab 02 ส่วนที่ 2 — กำลังเตรียมพร้อม จะอัปเดตเมื่อมีไฟล์โปรเจกต์จาก Godot Engine
-        </p>
-        <div class="card-tags">
-          <span class="tag">Godot 4</span>
-          <span class="tag">Coming Soon</span>
-        </div>
-        <div class="card-footer">
-          <div class="engine">
-            <span class="engine-dot"></span>
-            Godot Engine
-          </div>
-          <div class="play-label">
-            Coming Soon
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
 
-    <!-- Lab 03 Card -->
-    <a href="lab03/Lab03.html" class="lab-card" id="lab03-card">
-      <div class="card-thumbnail">
-        <div class="overlay"></div>
-        <div class="lab-number">Lab 03</div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <!-- Lab 4 -->
+      <div class="lab-card disabled anim anim-d6" id="lab04-card">
+        <div class="lab-num dim">04</div>
+        <div class="lab-info">
+          <h3>Lab 04</h3>
+          <p class="coming">🔒 Coming Soon — จะอัปเดตเมื่อมีผลงาน</p>
         </div>
+        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
-      <div class="card-body">
-        <h3>Lab 03</h3>
-        <p class="description">
-          Lab 03 — กำลังเตรียมพร้อม จะอัปเดตเมื่อมีไฟล์โปรเจกต์จาก Godot Engine
-        </p>
-        <div class="card-tags">
-          <span class="tag">Godot 4</span>
-          <span class="tag">Coming Soon</span>
-        </div>
-        <div class="card-footer">
-          <div class="engine">
-            <span class="engine-dot"></span>
-            Godot Engine
-          </div>
-          <div class="play-label">
-            Coming Soon
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
 
-    <!-- Lab 04 Card -->
-    <a href="lab04/Lab04.html" class="lab-card" id="lab04-card">
-      <div class="card-thumbnail">
-        <div class="overlay"></div>
-        <div class="lab-number">Lab 04</div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <!-- Lab 5 -->
+      <div class="lab-card disabled anim anim-d7" id="lab05-card">
+        <div class="lab-num dim">05</div>
+        <div class="lab-info">
+          <h3>Lab 05</h3>
+          <p class="coming">🔒 Coming Soon — จะอัปเดตเมื่อมีผลงาน</p>
         </div>
+        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
-      <div class="card-body">
-        <h3>Lab 04</h3>
-        <p class="description">
-          Lab 04 — กำลังเตรียมพร้อม จะอัปเดตเมื่อมีไฟล์โปรเจกต์จาก Godot Engine
-        </p>
-        <div class="card-tags">
-          <span class="tag">Godot 4</span>
-          <span class="tag">Coming Soon</span>
-        </div>
-        <div class="card-footer">
-          <div class="engine">
-            <span class="engine-dot"></span>
-            Godot Engine
-          </div>
-          <div class="play-label">
-            Coming Soon
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
 
-    <!-- Lab 05 Card -->
-    <a href="lab05/Lab05.html" class="lab-card" id="lab05-card">
-      <div class="card-thumbnail">
-        <div class="overlay"></div>
-        <div class="lab-number">Lab 05</div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <!-- Lab 6 -->
+      <div class="lab-card disabled anim anim-d8" id="lab06-card">
+        <div class="lab-num dim">06</div>
+        <div class="lab-info">
+          <h3>Lab 06</h3>
+          <p class="coming">🔒 Coming Soon — จะอัปเดตเมื่อมีผลงาน</p>
         </div>
+        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
-      <div class="card-body">
-        <h3>Lab 05</h3>
-        <p class="description">
-          Lab 05 — กำลังเตรียมพร้อม จะอัปเดตเมื่อมีไฟล์โปรเจกต์จาก Godot Engine
-        </p>
-        <div class="card-tags">
-          <span class="tag">Godot 4</span>
-          <span class="tag">Coming Soon</span>
-        </div>
-        <div class="card-footer">
-          <div class="engine">
-            <span class="engine-dot"></span>
-            Godot Engine
-          </div>
-          <div class="play-label">
-            Coming Soon
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
 
-    <!-- Lab 06 Card -->
-    <a href="lab06/Lab06.html" class="lab-card" id="lab06-card">
-      <div class="card-thumbnail">
-        <div class="overlay"></div>
-        <div class="lab-number">Lab 06</div>
-        <div class="play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        </div>
-      </div>
-      <div class="card-body">
-        <h3>Lab 06</h3>
-        <p class="description">
-          Lab 06 — กำลังเตรียมพร้อม จะอัปเดตเมื่อมีไฟล์โปรเจกต์จาก Godot Engine
-        </p>
-        <div class="card-tags">
-          <span class="tag">Godot 4</span>
-          <span class="tag">Coming Soon</span>
-        </div>
-        <div class="card-footer">
-          <div class="engine">
-            <span class="engine-dot"></span>
-            Godot Engine
-          </div>
-          <div class="play-label">
-            Coming Soon
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </div>
-    </a>
+    </div>
+  </section>
 
+  <!-- Lab 02 Modal -->
+  <div class="modal-overlay" id="lab02-modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>🎮 Lab 02 — เลือกภารกิจ</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <p class="modal-desc">My First 2D Game แบ่งเป็น 2 ภารกิจ — เลือกภารกิจที่ต้องการเล่น</p>
+      <div class="modal-opts">
+        <a href="lab02-1/game21.html" class="modal-opt" id="lab02-opt-21">
+          <div class="opt-icon">🕹️</div>
+          <div class="opt-info">
+            <h4>ภารกิจ 1: game21</h4>
+            <p>Instancing & Object สร้าง Object ซ้ำๆ แบบ Dynamic</p>
+          </div>
+          <div class="opt-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </a>
+        <a href="lab02-2/game22.html" class="modal-opt" id="lab02-opt-22">
+          <div class="opt-icon">🎯</div>
+          <div class="opt-info">
+            <h4>ภารกิจ 2: game22</h4>
+            <p>Scene Management การจัดการ Scene ใน Godot</p>
+          </div>
+          <div class="opt-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- Footer -->
-  <footer>
-    <p>Game Dev 2026 Project — Built with <a href="https://godotengine.org" target="_blank" rel="noopener">Godot Engine</a></p>
+  <footer class="container">
+    <p>Computer Game Development 2026 — Built with <a href="https://godotengine.org" target="_blank" rel="noopener">Godot Engine</a></p>
   </footer>
 
-  <!-- Particle Script -->
   <script>
-    (function() {
-      const container = document.getElementById('particles');
-      const colors = [
-        'rgba(59,130,246,0.4)',
-        'rgba(14,165,233,0.3)',
-        'rgba(34,211,238,0.25)',
-        'rgba(96,165,250,0.35)',
-      ];
-
-      for (let i = 0; i < 30; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        const size = Math.random() * 4 + 2;
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        p.style.left = Math.random() * 100 + '%';
-        p.style.background = colors[Math.floor(Math.random() * colors.length)];
-        p.style.animationDuration = (Math.random() * 15 + 10) + 's';
-        p.style.animationDelay = (Math.random() * 15) + 's';
-        container.appendChild(p);
-      }
-    })();
+    function openModal() {
+      document.getElementById('lab02-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('lab02-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('lab02-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
   </script>
 
 </body>
