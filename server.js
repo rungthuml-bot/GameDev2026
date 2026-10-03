@@ -38,10 +38,10 @@ function organizeFiles() {
   const folders = {
     'lab01': 'Lab01',
     'lab02-1': ['game21', 'Lab02-1'],
-    'lab02-2': 'Lab02-2',
-    'lab03': 'Lab03',
+    'lab02-2': ['Lab02-2', 'game22'],
+    'lab03': ['Lab-03', 'Lab03'],
     'lab04': 'Lab04',
-    'lab05': 'Lab05',
+    'lab05': ['3d', 'Lab05'],
     'lab06': 'Lab06'
   };
 
@@ -166,11 +166,36 @@ function handleRequest(req, res) {
   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
 
   const urlPath = decodeURIComponent(req.url.split('?')[0]);
-  const filePath = path.join(DOCS_DIR, urlPath === '/' ? 'index.html' : urlPath);
+  let filePath = path.join(DOCS_DIR, urlPath === '/' ? 'index.html' : urlPath);
 
   // Security: prevent directory traversal
   if (!filePath.startsWith(DOCS_DIR)) {
     res.writeHead(403); res.end('Forbidden'); return;
+  }
+
+  // If path is a directory, resolve index.html or first available html file
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+    const indexPath = path.join(filePath, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      filePath = indexPath;
+    } else {
+      const htmlFiles = fs.readdirSync(filePath).filter(f => f.toLowerCase().endsWith('.html'));
+      if (htmlFiles.length > 0) {
+        const preferred = htmlFiles.find(f => f.startsWith('Lab'))
+          || htmlFiles.find(f => f.startsWith('3d'))
+          || htmlFiles.find(f => f.startsWith('game') && f !== 'game22.html')
+          || htmlFiles[0];
+        filePath = path.join(filePath, preferred);
+      }
+    }
+  }
+
+  // Fallback for game22.html -> Lab02-2.html if file doesn't exist
+  if (!fs.existsSync(filePath) && filePath.endsWith('game22.html')) {
+    const altPath = filePath.replace('game22.html', 'Lab02-2.html');
+    if (fs.existsSync(altPath)) {
+      filePath = altPath;
+    }
   }
 
   const ext = path.extname(filePath).toLowerCase();
