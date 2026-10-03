@@ -198,6 +198,14 @@ function handleRequest(req, res) {
     }
   }
 
+  // Fallback for Lab03.html -> Lab-03.html if file doesn't exist
+  if (!fs.existsSync(filePath) && filePath.endsWith('Lab03.html')) {
+    const altPath = filePath.replace('Lab03.html', 'Lab-03.html');
+    if (fs.existsSync(altPath)) {
+      filePath = altPath;
+    }
+  }
+
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME[ext] || 'application/octet-stream';
 
