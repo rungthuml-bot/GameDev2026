@@ -4,363 +4,2181 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="coi-serviceworker.js"></script>
-  <meta name="description" content="Computer Game Development 2026 — รวมผลงาน Lab ทั้งหมด">
-  <title>Computer Game Development 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Computer Game Development 2026 — รวมผลงาน Lab ทั้งหมด | นายรุ่งธรรม ล้อมในเมือง">
+  <title>GAMEDEV // 2026 — Tactical Lab Archive</title>
+  
+  <!-- Google Fonts: High-impact Display, Technical UI, and Thai typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@600;700;900&family=Rajdhani:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    /* ══════════════════════════════════════════════════════════════════
+       GAMEDEV 2026 // URBAN RPG TACTICAL INTERFACE DESIGN SYSTEM
+       Aesthetic: High-contrast Japanese Urban RPG / Anime Game Menu UI
+       ══════════════════════════════════════════════════════════════════ */
+    
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     :root {
-      --bg: #0a0e1a; --surface: #111827; --surface2: #1a2236;
-      --border: rgba(99,102,241,0.12); --border-hover: rgba(99,102,241,0.35);
-      --text: #e2e8f0; --text-dim: #94a3b8; --text-muted: #64748b;
-      --accent: #6366f1; --accent-light: #818cf8; --accent-glow: rgba(99,102,241,0.15);
-      --cyan: #22d3ee; --emerald: #34d399;
+      /* Core Palette */
+      --bg: #070709;
+      --bg-darker: #040405;
+      --surface: #0f0f13;
+      --surface-elevated: #16161c;
+      --surface-highlight: #22222a;
+      
+      /* Primary Signature Red */
+      --primary: #e50914;
+      --primary-bright: #ff1a26;
+      --primary-dark: #8b0000;
+      --primary-glow: rgba(229, 9, 20, 0.4);
+      --primary-subtle: rgba(229, 9, 20, 0.12);
+      
+      /* Secondary Accents */
+      --cyan: #00f0ff;
+      --cyan-subtle: rgba(0, 240, 255, 0.15);
+      --accent-white: #ffffff;
+      
+      /* Text Colors */
+      --text: #f5f5f7;
+      --text-dim: #a1a1aa;
+      --text-muted: #5e5e6e;
+      --text-ghost: #2b2b36;
+      
+      /* Borders & Hairlines */
+      --border: rgba(255, 255, 255, 0.1);
+      --border-strong: rgba(255, 255, 255, 0.22);
+      --border-red: rgba(229, 9, 20, 0.5);
+      
+      /* Fonts */
+      --font-display: 'Bebas Neue', 'Oswald', sans-serif;
+      --font-tech: 'Rajdhani', sans-serif;
+      --font-body: 'Space Grotesk', 'Noto Sans Thai', sans-serif;
+      --font-thai: 'Noto Sans Thai', sans-serif;
+      
+      /* Motion */
+      --ease-tactile: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-snap: cubic-bezier(0.2, 0.9, 0.2, 1.2);
+
+      /* Custom Cursor Fallbacks */
+      --cursor-normal: auto;
+      --cursor-hover: pointer;
     }
 
-    html { scroll-behavior: smooth; }
+    /* ══════════════════════════════════════════════════════════════════
+       TACTICAL RPG MOUSE CURSOR SYSTEM (DESKTOP ONLY)
+       ══════════════════════════════════════════════════════════════════ */
+    @media (hover: hover) and (pointer: fine) {
+      :root {
+        /* Normal: Classic sharp 45° pointer, white/off-white with black outline & crimson red trailing accent */
+        --cursor-normal: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cdefs%3E%3Cfilter%20id%3D%22c-shadow%22%20x%3D%22-20%25%22%20y%3D%22-20%25%22%20width%3D%22150%25%22%20height%3D%22150%25%22%3E%3CfeDropShadow%20dx%3D%221%22%20dy%3D%221.5%22%20stdDeviation%3D%221%22%20flood-color%3D%22%23000000%22%20flood-opacity%3D%220.6%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M2%202%20L2%2021%20L7%2016.5%20L10%2024.5%20L13.5%2023%20L10.5%2015.5%20L17%2015.5%20Z%22%20fill%3D%22%23000000%22%20stroke%3D%22%23000000%22%20stroke-width%3D%222.5%22%20stroke-linejoin%3D%22round%22%20filter%3D%22url(%23c-shadow)%22%2F%3E%3Cpath%20d%3D%22M2%202%20L2%2021%20L7%2016.5%20L7%208.5%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%3Cpath%20d%3D%22M2%202%20L7%208.5%20L7%2016.5%20L10.5%2015.5%20L17%2015.5%20Z%22%20fill%3D%22%23ebebf0%22%2F%3E%3Cpath%20d%3D%22M7%2016.5%20L10%2024.5%20L13.5%2023%20L10.5%2015.5%20Z%22%20fill%3D%22%23e50914%22%2F%3E%3Cpolygon%20points%3D%222%2C2%205.5%2C2%202%2C5.5%22%20fill%3D%22%23e50914%22%2F%3E%3C%2Fsvg%3E") 2 2, default;
+        
+        /* Hover: 1.1x pointer, red HUD reticle bracket at tip, engaged slashes '//', vibrant crimson wing */
+        --cursor-hover: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cdefs%3E%3Cfilter%20id%3D%22h-glow%22%20x%3D%22-25%25%22%20y%3D%22-25%25%22%20width%3D%22160%25%22%20height%3D%22160%25%22%3E%3CfeDropShadow%20dx%3D%220%22%20dy%3D%220%22%20stdDeviation%3D%221.5%22%20flood-color%3D%22%23ff1a26%22%20flood-opacity%3D%220.7%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M0%207%20L0%200%20L7%200%22%20fill%3D%22none%22%20stroke%3D%22%23ff1a26%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22square%22%2F%3E%3Cline%20x1%3D%2221%22%20y1%3D%222%22%20x2%3D%2217.5%22%20y2%3D%228%22%20stroke%3D%22%23ff1a26%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22square%22%2F%3E%3Cline%20x1%3D%2225%22%20y1%3D%222%22%20x2%3D%2221.5%22%20y2%3D%228%22%20stroke%3D%22%23ff1a26%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22square%22%2F%3E%3Cpath%20d%3D%22M2.5%202.5%20L2.5%2023.5%20L8%2018.5%20L11.5%2027.5%20L15.5%2025.5%20L12%2017.5%20L19.5%2017.5%20Z%22%20fill%3D%22%23000000%22%20stroke%3D%22%23000000%22%20stroke-width%3D%222.8%22%20stroke-linejoin%3D%22round%22%20filter%3D%22url(%23h-glow)%22%2F%3E%3Cpath%20d%3D%22M2.5%202.5%20L2.5%2023.5%20L8%2018.5%20L8%209.5%20Z%22%20fill%3D%22%23ffffff%22%2F%3E%3Cpath%20d%3D%22M2.5%202.5%20L8%209.5%20L8%2018.5%20L12%2017.5%20L19.5%2017.5%20Z%22%20fill%3D%22%23ff1a26%22%2F%3E%3Cpath%20d%3D%22M8%2018.5%20L11.5%2027.5%20L15.5%2025.5%20L12%2017.5%20Z%22%20fill%3D%22%2399000a%22%2F%3E%3Cpolygon%20points%3D%222.5%2C2.5%206%2C2.5%202.5%2C6%22%20fill%3D%22%23ffffff%22%2F%3E%3C%2Fsvg%3E") 2 2, pointer;
+      }
+
+      html, body {
+        cursor: var(--cursor-normal);
+      }
+
+      /* Apply custom hover cursor across all interactive elements */
+      a,
+      button,
+      [role="button"],
+      [tabindex="0"],
+      .lab-row,
+      .modal-opt,
+      .modal-close,
+      .audio-toggle-btn,
+      .logo-container,
+      input,
+      select,
+      summary {
+        cursor: var(--cursor-hover) !important;
+      }
+
+      .lab-row.disabled,
+      [aria-disabled="true"],
+      :disabled {
+        cursor: not-allowed !important;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+    }
 
     body {
-      font-family: 'Outfit', 'Noto Sans Thai', sans-serif;
-      background: var(--bg); color: var(--text);
-      min-height: 100vh; overflow-x: hidden;
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      selection-background-color: var(--primary);
+      selection-color: #fff;
     }
 
-    /* ── Background ── */
-    .bg-glow {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    ::selection {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       BACKGROUND COMPOSITION LAYERS
+       ══════════════════════════════════════════════════════════════════ */
+    
+    /* Layer 1: Ambient Red Vignette & Atmospheric Glow */
+    .bg-ambient {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
       background:
-        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(99,102,241,0.1), transparent),
-        radial-gradient(ellipse 500px 500px at 80% 70%, rgba(34,211,238,0.06), transparent);
-    }
-    .grid-bg {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
-      background-size: 50px 50px;
+        radial-gradient(circle 750px at 90% 10%, rgba(229, 9, 20, 0.12), transparent 70%),
+        radial-gradient(circle 600px at 5% 85%, rgba(139, 0, 0, 0.15), transparent 60%),
+        radial-gradient(circle 500px at 50% 50%, rgba(0, 240, 255, 0.03), transparent 70%);
     }
 
-    /* ── Layout ── */
-    .container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 10; }
-
-    /* ── Header ── */
-    header { padding: 2rem 0; }
-    .header-inner { display: flex; align-items: center; justify-content: space-between; }
-    .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; }
-    .logo-icon {
-      width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, var(--accent), var(--cyan)); font-size: 1.3rem;
-      box-shadow: 0 4px 20px rgba(99,102,241,0.3);
-    }
-    .logo-text { font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em; }
-    .logo-text span { background: linear-gradient(135deg, var(--accent-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .badge-pill {
-      padding: 0.35rem 0.9rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500;
-      background: var(--accent-glow); border: 1px solid var(--border); color: var(--accent-light);
+    /* Layer 2: Subtle Film Grain Noise (High-tech Anime aesthetic) */
+    .bg-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     }
 
-    /* ── Hero ── */
-    .hero { text-align: center; padding: 4rem 0 3rem; }
-    .hero-chip {
-      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1.1rem;
-      background: var(--accent-glow); border: 1px solid var(--border); border-radius: 999px;
-      font-size: 0.82rem; color: var(--accent-light); margin-bottom: 1.25rem;
+    /* Layer 3: Diagonal Tactical Hatch Lines */
+    .bg-diagonal-stripes {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.012) 0px,
+        rgba(255, 255, 255, 0.012) 1px,
+        transparent 1px,
+        transparent 18px
+      );
     }
-    .hero-chip .dot { width: 7px; height: 7px; background: var(--emerald); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
 
-    .hero h1 { font-size: clamp(2.2rem,5.5vw,3.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem; }
-    .hero h1 .grad { background: linear-gradient(135deg, var(--accent-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero p { font-size: 1.05rem; color: var(--text-dim); max-width: 520px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
-
-    .hero-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 2rem; }
-    .stat-val { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .stat-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.15rem; }
-
-    /* ── Section Heading ── */
-    .section-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-top: 1rem; }
-    .section-head h2 { font-size: 1.2rem; font-weight: 600; white-space: nowrap; }
-    .section-head .line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-hover), transparent); }
-
-    /* ── Lab Cards ── */
-    .labs { display: flex; flex-direction: column; gap: 1rem; padding-bottom: 3rem; }
-
-    .lab-card {
-      display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem 1.5rem;
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
-      border: 1px solid var(--border); border-radius: 16px;
-      text-decoration: none; color: inherit; cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    /* Layer 4: Halftone Screen Accents */
+    .bg-halftone {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1.2px, transparent 1.2px);
+      background-size: 26px 26px;
+      opacity: 0.7;
+      mask-image: radial-gradient(circle at 80% 30%, black 20%, transparent 70%);
+      -webkit-mask-image: radial-gradient(circle at 80% 30%, black 20%, transparent 70%);
     }
-    .lab-card:hover {
-      border-color: var(--border-hover); transform: translateX(6px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 40px var(--accent-glow);
+
+    /* Layer 5: Giant Faint Watermark Typography */
+    .bg-watermark {
+      position: fixed;
+      top: 25%;
+      left: -5%;
+      width: 140vw;
+      z-index: 4;
+      pointer-events: none;
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 16vw, 18rem);
+      font-weight: 900;
+      line-height: 0.85;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.018);
+      white-space: nowrap;
+      user-select: none;
+      transform: rotate(-10deg) skewX(-12deg);
+      letter-spacing: 0.05em;
+    }
+
+    /* Layer 6: Dynamic CRT Scanline Drift */
+    .bg-scanline {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 0, 0, 0.25) 51%
+      );
+      background-size: 100% 4px;
+      opacity: 0.35;
+    }
+
+    /* High-tech Geometric Shard in Corner */
+    .bg-corner-shards {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 320px;
+      height: 320px;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0.8;
+      overflow: hidden;
+    }
+    .bg-corner-shards::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 280px;
+      height: 280px;
+      background: linear-gradient(135deg, var(--primary), transparent 70%);
+      transform: rotate(45deg);
+      opacity: 0.18;
+    }
+    .bg-corner-shards::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 40px;
+      width: 2px;
+      height: 180px;
+      background: linear-gradient(to bottom, var(--primary), transparent);
+      transform: rotate(25deg);
+      opacity: 0.4;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       CONTAINER & GENERAL LAYOUT
+       ══════════════════════════════════════════════════════════════════ */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       HEADER: URBAN TACTICAL GAME HUD
+       ══════════════════════════════════════════════════════════════════ */
+    header {
+      padding: 1.75rem 0 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 140px;
+      height: 3px;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    /* Brand Logo / Game Title Mark */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      group: logo;
+    }
+
+    .logo-badge {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: #000;
+      border: 1px solid var(--primary);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      box-shadow: 0 0 15px rgba(229, 9, 20, 0.25);
+      transition: all 0.25s var(--ease-tactile);
+    }
+
+    .logo-badge::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: linear-gradient(135deg, rgba(229,9,20,0.2), transparent);
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+
+    .logo-badge-icon {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--accent-white);
+      letter-spacing: -0.05em;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-badge-icon span {
+      color: var(--primary);
+    }
+
+    .logo-container:hover .logo-badge {
+      background: var(--primary);
+      box-shadow: 0 0 25px var(--primary-glow);
+      transform: scale(1.05) rotate(-2deg);
+    }
+
+    .logo-container:hover .logo-badge-icon {
+      color: #000;
+    }
+    .logo-container:hover .logo-badge-icon span {
+      color: #fff;
+    }
+
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      line-height: 0.9;
+      letter-spacing: 0.04em;
+      color: var(--accent-white);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .logo-title .slash {
+      color: var(--primary);
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    .logo-title .year {
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      transition: color 0.25s ease;
+    }
+
+    .logo-container:hover .logo-title .year {
+      color: var(--primary);
+    }
+
+    .logo-sub {
+      font-family: var(--font-tech);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    /* Header Right HUD Status Box */
+    .header-hud {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .hud-ticker {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.45rem 1rem;
+      background: rgba(15, 15, 19, 0.9);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+      font-family: var(--font-tech);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .hud-pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+      animation: hudBlink 1.4s infinite ease-in-out;
+    }
+
+    @keyframes hudBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.7); }
+    }
+
+    .hud-label {
+      color: var(--accent-white);
+      text-transform: uppercase;
+    }
+
+    .hud-value {
+      color: var(--primary-bright);
+      font-weight: 800;
+    }
+
+    .hud-tag {
+      font-family: var(--font-tech);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.35rem 0.65rem;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Sound Effect Toggle Pill (Tasteful audio feedback) */
+    .audio-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: var(--font-tech);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: all 0.2s ease;
+    }
+
+    .audio-toggle-btn:hover {
+      border-color: var(--primary);
+      color: #fff;
+      background: var(--primary-subtle);
+    }
+
+    .audio-toggle-btn.active {
+      border-color: var(--primary);
+      color: var(--primary-bright);
+      background: rgba(229, 9, 20, 0.15);
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       HERO SECTION: DRAMATIC ANIME RPG POSTER COMPOSITION
+       ══════════════════════════════════════════════════════════════════ */
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: end;
+    }
+
+    /* Top Kicker Labels */
+    .hero-meta-kicker {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .kicker-tag {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.15rem 0.55rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+    }
+
+    .kicker-jp {
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-family: var(--font-thai);
+      letter-spacing: 0.05em;
+    }
+
+    /* Giant Asymmetric Hero Title */
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.8rem, 8.5vw, 7.2rem);
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--accent-white);
+      user-select: none;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title .title-line-1 {
+      display: block;
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .hero-title .title-line-2 {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      margin-top: 0.2rem;
+      position: relative;
+    }
+
+    /* High-impact red angular accent block behind DEV */
+    .hero-red-block {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 0.05em 0.3em;
+      display: inline-block;
+      transform: skewX(-10deg) rotate(-1deg);
+      box-shadow: 6px 8px 0px rgba(0, 0, 0, 0.9), 0 0 40px var(--primary-glow);
+      position: relative;
+      margin-right: 0.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-red-block::before {
+      content: '//';
+      font-family: var(--font-tech);
+      font-size: 0.35em;
+      vertical-align: super;
+      margin-right: 0.2em;
+      opacity: 0.7;
+    }
+
+    .hero-title .title-line-3 {
+      display: block;
+      font-size: clamp(1.4rem, 4.2vw, 3.8rem);
+      letter-spacing: 0.06em;
+      color: #fff;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.25);
+      margin-top: 0.45rem;
+    }
+
+    .hero-title .title-line-3 .red-slash {
+      color: var(--primary);
+      -webkit-text-stroke: 0px;
+    }
+
+    /* Hero Subtitle & Manifesto */
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      max-width: 580px;
+      line-height: 1.6;
+      font-weight: 400;
+      position: relative;
+      padding-left: 1.25rem;
+      border-left: 2px solid var(--primary);
+      margin-bottom: 2rem;
+    }
+
+    .hero-desc strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Student Dossier Badge (Technical Game Profile) */
+    .operator-dossier {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      background: rgba(15, 15, 19, 0.95);
+      border: 1px solid var(--border-strong);
+      padding: 1.1rem 1.4rem;
+      position: relative;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .operator-dossier::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary) 0%, transparent 60%);
+    }
+
+    .dossier-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      font-family: var(--font-tech);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.35rem;
+    }
+
+    .dossier-id {
+      color: var(--primary);
+    }
+
+    .dossier-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .dossier-name {
+      font-family: var(--font-thai);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .dossier-meta {
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 0.05em;
+    }
+
+    .dossier-engine {
+      font-family: var(--font-tech);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       TELEMETRY & STATS HUD
+       (Replaces boring cards with a sharp game telemetry rack)
+       ══════════════════════════════════════════════════════════════════ */
+    .telemetry-bar {
+      margin-top: 2.5rem;
+      background: rgba(12, 12, 16, 0.95);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--border-strong);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    }
+
+    .telemetry-cell {
+      padding: 1.4rem 1.6rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: background 0.25s ease;
+    }
+
+    .telemetry-cell:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 15%;
+      bottom: 15%;
+      right: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border-strong), transparent);
+    }
+
+    .telemetry-cell:hover {
+      background: rgba(229, 9, 20, 0.06);
+    }
+
+    .tel-index {
+      font-family: var(--font-tech);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--primary);
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .tel-val {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      line-height: 0.9;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .tel-val.highlight {
+      color: var(--primary-bright);
+      text-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .tel-label {
+      font-family: var(--font-tech);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-top: 0.35rem;
+    }
+
+    .tel-sub {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-family: var(--font-thai);
+      margin-top: 0.1rem;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       SECTION HEADER: MISSION SELECT
+       ══════════════════════════════════════════════════════════════════ */
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 4rem 0 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .section-head-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .section-kicker {
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--primary);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      color: #fff;
+      text-transform: uppercase;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .section-head h2 .thai-sub {
+      font-family: var(--font-thai);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      margin-left: 0.5rem;
+    }
+
+    .section-instructions {
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-instructions .blink-arrow {
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       LAB LIST: LARGE EDITORIAL RPG NAVIGATION ITEMS
+       ══════════════════════════════════════════════════════════════════ */
+    .labs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      padding: 1.75rem 0 4rem;
+    }
+
+    /* Individual Lab Navigation Row */
+    .lab-row {
+      display: grid;
+      grid-template-columns: 140px 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.6rem 2.2rem;
+      background: linear-gradient(90deg, rgba(16, 16, 22, 0.95) 0%, rgba(12, 12, 16, 0.95) 100%);
+      border: 1px solid var(--border);
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.22s var(--ease-tactile);
+      transform-origin: left center;
+    }
+
+    /* Dynamic Red Accent Wedge on Left */
+    .lab-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--primary);
+      transition: all 0.22s var(--ease-tactile);
+      z-index: 3;
+    }
+
+    /* Diagonal Slash Overlay that reveals on hover */
+    .lab-row::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        rgba(229, 9, 20, 0.18) 0%,
+        rgba(229, 9, 20, 0.05) 30%,
+        transparent 60%
+      );
+      opacity: 0;
+      transform: translateX(-15%);
+      transition: opacity 0.25s ease, transform 0.25s var(--ease-tactile);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Hover State: Snappy, Tactile Japanese Game Menu interaction */
+    .lab-row:not(.disabled):hover {
+      border-color: var(--border-red);
+      transform: translateX(12px) skewX(-1.5deg);
+      background: linear-gradient(90deg, #1b171c 0%, #121217 100%);
+      box-shadow: 
+        0 12px 35px rgba(0, 0, 0, 0.7),
+        0 0 35px rgba(229, 9, 20, 0.25),
+        inset 0 0 20px rgba(229, 9, 20, 0.06);
+    }
+
+    .lab-row:not(.disabled):hover::before {
+      width: 10px;
+      background: var(--primary-bright);
+      box-shadow: 0 0 15px var(--primary-bright);
+    }
+
+    .lab-row:not(.disabled):hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Focus visible for accessibility */
+    .lab-row:focus-visible {
+      outline: 2px solid var(--primary-bright);
+      outline-offset: 4px;
+      transform: translateX(8px);
+    }
+
+    /* ── Lab Number (Massive Display Typography) ── */
+    .lab-num-col {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
     }
 
     .lab-num {
-      width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 1.1rem; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent), #4f46e5);
-      box-shadow: 0 4px 15px rgba(99,102,241,0.3);
-    }
-    .lab-num.dim { background: linear-gradient(135deg, var(--surface2), #1e293b); color: var(--text-muted); box-shadow: none; border: 1px solid var(--border); }
-
-    .lab-info { flex: 1; min-width: 0; }
-    .lab-info h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.2rem; }
-    .lab-info p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
-    .lab-info .sub-badge {
-      display: inline-block; padding: 0.15rem 0.55rem; margin-left: 0.4rem;
-      background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.2);
-      border-radius: 6px; font-size: 0.68rem; color: var(--cyan); font-weight: 500; vertical-align: middle;
+      font-family: var(--font-display);
+      font-size: clamp(3.4rem, 5.5vw, 4.8rem);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 0.82;
+      letter-spacing: -0.04em;
+      color: rgba(255, 255, 255, 0.22);
+      transition: all 0.22s var(--ease-tactile);
+      user-select: none;
+      display: inline-block;
+      transform-origin: left bottom;
     }
 
-    .lab-arrow {
-      width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      background: var(--accent-glow); color: var(--accent-light); flex-shrink: 0; transition: all 0.3s ease;
+    .lab-row:not(.disabled):hover .lab-num {
+      color: var(--primary);
+      text-shadow: 0 0 25px var(--primary-glow);
+      transform: scale(1.08) skewX(-3deg);
     }
-    .lab-card:hover .lab-arrow { background: rgba(99,102,241,0.25); transform: translateX(3px); }
-    .lab-arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    .lab-card.disabled { opacity: 0.5; cursor: default; }
-    .lab-card.disabled:hover { transform: none; box-shadow: none; border-color: var(--border); }
-    .coming { font-size: 0.72rem; color: var(--text-muted); font-style: italic; }
+    .lab-index-label {
+      font-family: var(--font-tech);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
 
-    /* ── Tags ── */
-    .tags { display: flex; gap: 0.4rem; margin-top: 0.4rem; flex-wrap: wrap; }
+    .lab-row:not(.disabled):hover .lab-index-label {
+      color: #fff;
+    }
+
+    /* ── Lab Content Column ── */
+    .lab-content {
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+    }
+
+    .lab-mission-tag {
+      font-family: var(--font-tech);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .lab-mission-tag .bullet {
+      width: 4px;
+      height: 4px;
+      background: var(--primary);
+    }
+
+    .lab-title-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .lab-title {
+      font-family: var(--font-body);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+      transition: color 0.2s ease;
+    }
+
+    .lab-row:not(.disabled):hover .lab-title {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Special Badge for Lab 02 Multi-module */
+    .sub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.65rem;
+      background: rgba(229, 9, 20, 0.15);
+      border: 1px solid var(--border-red);
+      font-family: var(--font-tech);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+    }
+
+    .sub-badge::before {
+      content: '▶';
+      font-size: 0.65rem;
+    }
+
+    .lab-desc {
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      font-family: var(--font-thai);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Tags styling */
+    .lab-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
     .tag {
-      padding: 0.15rem 0.55rem; border-radius: 5px; font-size: 0.68rem; font-weight: 500;
-      background: var(--accent-glow); border: 1px solid var(--border); color: var(--accent-light);
+      font-family: var(--font-tech);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-dim);
+      transition: all 0.2s ease;
     }
 
-    /* ── Modal ── */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 1000;
-      background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    .lab-row:not(.disabled):hover .tag {
+      border-color: rgba(229, 9, 20, 0.4);
+      color: #fff;
+      background: rgba(229, 9, 20, 0.1);
     }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* ── Action / Tactical Arrow Column ── */
+    .lab-action-col {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .lab-prompt {
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      transition: all 0.22s ease;
+    }
+
+    .lab-arrow-btn {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+      color: var(--text-dim);
+      transition: all 0.22s var(--ease-tactile);
+    }
+
+    .lab-arrow-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      transition: transform 0.22s var(--ease-tactile);
+    }
+
+    .lab-row:not(.disabled):hover .lab-prompt {
+      color: var(--primary-bright);
+    }
+
+    .lab-row:not(.disabled):hover .lab-arrow-btn {
+      background: var(--primary);
+      border-color: var(--primary-bright);
+      color: #fff;
+      box-shadow: 0 0 20px var(--primary-glow);
+      transform: translateX(4px);
+    }
+
+    .lab-row:not(.disabled):hover .lab-arrow-btn svg {
+      transform: translateX(3px);
+    }
+
+    /* ── Disabled / Classified Labs (Lab 04 & 06) ── */
+    .lab-row.disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(15, 15, 19, 0.95),
+        rgba(15, 15, 19, 0.95) 12px,
+        rgba(10, 10, 13, 0.95) 12px,
+        rgba(10, 10, 13, 0.95) 24px
+      );
+    }
+
+    .lab-row.disabled::before {
+      background: var(--text-ghost);
+    }
+
+    .lab-row.disabled .lab-num {
+      color: rgba(255, 255, 255, 0.08);
+    }
+
+    .coming {
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       MODAL: TACTICAL MODULE DISPATCH SCREEN
+       ══════════════════════════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(4, 4, 6, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     .modal-box {
-      background: linear-gradient(145deg, var(--surface), var(--bg));
-      border: 1px solid var(--border-hover); border-radius: 20px; padding: 2rem;
-      max-width: 480px; width: 90%;
-      transform: translateY(16px) scale(0.96); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 60px var(--accent-glow);
+      background: #0d0d12;
+      border: 1px solid var(--border-red);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+      padding: 0;
+      max-width: 580px;
+      width: 100%;
+      position: relative;
+      transform: translateY(20px) scale(0.96) skewX(-1deg);
+      transition: transform 0.25s var(--ease-tactile);
+      box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.9),
+        0 0 60px rgba(229, 9, 20, 0.25);
+      overflow: hidden;
     }
-    .modal-overlay.active .modal-box { transform: translateY(0) scale(1); }
 
-    .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
-    .modal-head h3 { font-size: 1.25rem; font-weight: 700; }
+    .modal-overlay.active .modal-box {
+      transform: translateY(0) scale(1) skewX(0);
+    }
+
+    /* Modal Top Accent Header */
+    .modal-top-bar {
+      background: var(--primary);
+      padding: 0.75rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+    }
+
+    .modal-top-bar-title {
+      font-family: var(--font-tech);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .modal-content-area {
+      padding: 2rem 2rem 2.25rem;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-head h3 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
     .modal-close {
-      width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
-      background: transparent; color: var(--text-dim); display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 1rem; transition: all 0.2s;
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      color: var(--text-dim);
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
     }
-    .modal-close:hover { background: var(--accent-glow); color: var(--text); }
-    .modal-desc { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.5rem; }
 
-    .modal-opts { display: flex; flex-direction: column; gap: 0.75rem; }
+    .modal-close:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .modal-desc {
+      font-family: var(--font-thai);
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 1.75rem;
+      border-left: 2px solid var(--primary);
+      padding-left: 0.85rem;
+    }
+
+    /* Modal Mission Selection Cards */
+    .modal-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
     .modal-opt {
-      display: flex; align-items: center; gap: 1rem; padding: 1.1rem;
-      background: rgba(99,102,241,0.04); border: 1px solid var(--border); border-radius: 14px;
-      text-decoration: none; color: inherit; transition: all 0.3s ease;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(22, 22, 28, 0.95);
+      border: 1px solid var(--border);
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s var(--ease-tactile);
     }
+
+    .modal-opt::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+
     .modal-opt:hover {
-      background: rgba(99,102,241,0.1); border-color: var(--border-hover);
-      transform: translateX(4px); box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      border-color: var(--primary);
+      background: linear-gradient(90deg, #22181d 0%, #171720 100%);
+      transform: translateX(6px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 30px rgba(229, 9, 20, 0.2);
     }
-    .opt-icon {
-      width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, var(--accent), #4f46e5); font-size: 1.2rem; flex-shrink: 0;
+
+    .modal-opt:hover::before {
+      background: var(--primary);
+      width: 6px;
     }
-    .opt-info { flex: 1; }
-    .opt-info h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.15rem; }
-    .opt-info p { font-size: 0.78rem; color: var(--text-dim); }
-    .opt-arrow { color: var(--accent-light); transition: transform 0.3s; }
-    .modal-opt:hover .opt-arrow { transform: translateX(3px); }
-    .opt-arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    /* ── Footer ── */
-    footer { text-align: center; padding: 2rem 0 3rem; border-top: 1px solid var(--border); }
-    footer p { font-size: 0.82rem; color: var(--text-muted); }
-    footer a { color: var(--accent-light); text-decoration: none; }
+    .opt-number {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 0.85;
+      color: rgba(255, 255, 255, 0.25);
+      transition: color 0.2s ease;
+    }
 
-    /* ── Animations ── */
-    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-    .anim { animation: fadeUp 0.5s ease-out both; }
-    .anim-d1 { animation-delay: .1s } .anim-d2 { animation-delay: .2s }
-    .anim-d3 { animation-delay: .3s } .anim-d4 { animation-delay: .35s }
-    .anim-d5 { animation-delay: .4s } .anim-d6 { animation-delay: .45s }
-    .anim-d7 { animation-delay: .5s } .anim-d8 { animation-delay: .55s }
+    .modal-opt:hover .opt-number {
+      color: var(--primary);
+    }
 
-    /* ── Responsive ── */
-    @media (max-width: 640px) {
-      .hero { padding: 2.5rem 0 2rem; }
-      .hero-stats { gap: 1.5rem; }
-      .lab-card { flex-direction: column; text-align: center; padding: 1.25rem; }
-      .lab-arrow { display: none; }
-      .header-inner { flex-direction: column; gap: .75rem; }
-      .modal-box { padding: 1.5rem; }
+    .opt-info h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      font-family: var(--font-thai);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .opt-info p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-family: var(--font-thai);
+      line-height: 1.4;
+    }
+
+    .opt-meta-tag {
+      font-family: var(--font-tech);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+      margin-top: 0.35rem;
+    }
+
+    .opt-arrow {
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .opt-arrow svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+    }
+
+    .modal-opt:hover .opt-arrow {
+      color: var(--primary-bright);
+      transform: translateX(4px);
+    }
+
+    /* Modal Footer Note */
+    .modal-foot-note {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-tech);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .modal-foot-note .esc-hint {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       FOOTER: URBAN GAME CREDITS
+       ══════════════════════════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 3rem 0 4.5rem;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      right: 0;
+      width: 180px;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    .footer-brand span {
+      color: var(--primary);
+    }
+
+    .footer-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: var(--font-thai);
+    }
+
+    .footer-sub strong {
+      color: var(--text-dim);
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.4rem;
+    }
+
+    .footer-badge {
+      font-family: var(--font-tech);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .footer-badge a {
+      color: var(--primary-bright);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-badge a:hover {
+      text-decoration: underline;
+      color: #fff;
+    }
+
+    .footer-credits {
+      font-family: var(--font-tech);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       ENTRANCE ANIMATIONS & MOTION SYSTEM
+       ══════════════════════════════════════════════════════════════════ */
+    @keyframes tacticalSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px) skewX(-1.5deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) skewX(0);
+      }
+    }
+
+    .anim-tactical {
+      animation: tacticalSlideUp 0.6s var(--ease-tactile) both;
+    }
+
+    .anim-d1 { animation-delay: 0.08s; }
+    .anim-d2 { animation-delay: 0.16s; }
+    .anim-d3 { animation-delay: 0.24s; }
+    .anim-d4 { animation-delay: 0.32s; }
+    .anim-d5 { animation-delay: 0.40s; }
+    .anim-d6 { animation-delay: 0.48s; }
+    .anim-d7 { animation-delay: 0.56s; }
+    .anim-d8 { animation-delay: 0.64s; }
+
+    /* Accessibility: Reduced Motion Support */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .bg-scanline, .hud-pulse-dot {
+        animation: none !important;
+      }
+      .lab-row:not(.disabled):hover {
+        transform: none !important;
+      }
+      .anim-tactical {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS (Mobile & Tablet Perfection)
+       ══════════════════════════════════════════════════════════════════ */
+    @media (max-width: 920px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .telemetry-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .telemetry-cell:nth-child(2)::after {
+        display: none;
+      }
+      .telemetry-cell:nth-child(-n+2) {
+        border-bottom: 1px solid var(--border);
+      }
+      .lab-row {
+        grid-template-columns: 100px 1fr auto;
+        gap: 1.5rem;
+        padding: 1.4rem 1.5rem;
+      }
+      .footer-right {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        padding: 0 1.25rem;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .header-hud {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .hero {
+        padding: 3rem 0 2rem;
+      }
+      .hero-title {
+        font-size: clamp(3rem, 13vw, 4.4rem);
+      }
+      .operator-dossier {
+        width: 100%;
+      }
+      .telemetry-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .telemetry-cell:nth-child(2)::after {
+        display: none;
+      }
+      .telemetry-cell:nth-child(-n+2) {
+        border-bottom: 1px solid var(--border);
+      }
+      .telemetry-cell:not(:last-child)::after {
+        display: none;
+      }
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .lab-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        padding: 1.4rem 1.25rem;
+      }
+      .lab-num-col {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+      .lab-num {
+        font-size: 3rem;
+      }
+      .lab-action-col {
+        justify-content: flex-end;
+        padding-top: 0.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .modal-box {
+        width: 95%;
+      }
+      .modal-content-area {
+        padding: 1.5rem;
+      }
+      .modal-opt {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      .opt-number {
+        font-size: 1.8rem;
+      }
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-glow"></div>
-  <div class="grid-bg"></div>
+  <!-- Dynamic Background Layers -->
+  <div class="bg-ambient" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+  <div class="bg-diagonal-stripes" aria-hidden="true"></div>
+  <div class="bg-halftone" aria-hidden="true"></div>
+  <div class="bg-scanline" aria-hidden="true"></div>
+  <div class="bg-corner-shards" aria-hidden="true"></div>
+  <div class="bg-watermark" aria-hidden="true">GAMEDEV 2026 // TACTICAL ARCHIVE // RUNTIME</div>
 
-  <!-- Header -->
+  <!-- Header: Urban Tactical Game HUD -->
   <header>
     <div class="container">
       <div class="header-inner">
-        <a href="#" class="logo">
-          <div class="logo-icon">🎮</div>
-          <div class="logo-text"><span>GameDev</span> 2026</div>
+        <a href="#" class="logo-container" aria-label="GameDev 2026 Home">
+          <div class="logo-badge">
+            <span class="logo-badge-icon">G<span>D</span></span>
+          </div>
+          <div class="logo-text-block">
+            <div class="logo-title">
+              GAMEDEV <span class="slash">//</span> <span class="year">2026</span>
+            </div>
+            <div class="logo-sub">COMPUTER GAME DEVELOPMENT ARCHIVE</div>
+          </div>
         </a>
-        <div class="badge-pill">📚 Lab Collection</div>
+
+        <div class="header-hud">
+          <button id="soundToggle" class="audio-toggle-btn" aria-label="Toggle UI Audio Effect" onclick="toggleAudio()">
+            <span>[ AUDIO: <span id="soundStatus">SFX READY</span> ]</span>
+          </button>
+          
+          <div class="hud-ticker">
+            <span class="hud-pulse-dot" aria-hidden="true"></span>
+            <span class="hud-label">SYSTEM:</span>
+            <span class="hud-value">ONLINE</span>
+          </div>
+
+          <div class="hud-tag">BUILD // 2026.10</div>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero container anim">
-    <div class="hero-chip"><span class="dot"></span> Computer Game Development</div>
-    <h1><span class="grad">Game Dev</span><br>Lab Portfolio</h1>
-    <p>นายรุ่งธรรม ล้อมในเมือง — รหัสนักศึกษา 663380639-0<br>สร้างด้วย Godot Engine เล่นได้บนเว็บ</p>
-    <div class="hero-stats">
-      <div><div class="stat-val">6</div><div class="stat-lbl">Labs</div></div>
-      <div><div class="stat-val">Godot</div><div class="stat-lbl">Engine</div></div>
-      <div><div class="stat-val">Web</div><div class="stat-lbl">Platform</div></div>
-    </div>
-  </section>
+  <!-- Hero: Main Menu Anime Composition -->
+  <main>
+    <section class="hero container anim-tactical anim-d1">
+      <div class="hero-grid">
+        <div class="hero-main-col">
+          <div class="hero-meta-kicker">
+            <span class="kicker-tag">NO.01 ARCHIVE</span>
+            <span>// COMPUTER GAME DEVELOPMENT 2026</span>
+            <span class="kicker-jp">コンピュータゲーム開発</span>
+          </div>
 
-  <!-- Labs List -->
-  <section class="container">
-    <div class="section-head anim anim-d2">
-      <h2>🕹️ Lab Projects</h2>
-      <div class="line"></div>
-    </div>
+          <h1 class="hero-title">
+            <span class="title-line-1">GAME</span>
+            <span class="title-line-2">
+              <span class="hero-red-block">DEV</span>
+            </span>
+            <span class="title-line-3">
+              LAB ARCHIVE <span class="red-slash">//</span> 2026
+            </span>
+          </h1>
 
-    <div class="labs">
-
-      <!-- Lab 1 -->
-      <a href="lab01/Lab01.html" class="lab-card anim anim-d3" id="lab01-card">
-        <div class="lab-num">01</div>
-        <div class="lab-info">
-          <h3>แนะนำตัวเอง</h3>
-          <p>โปรเจกต์แรก — แนะนำตัวเองผ่าน Godot Engine</p>
-          <div class="tags"><span class="tag">Godot 4</span><span class="tag">2D</span><span class="tag">Web Export</span></div>
+          <p class="hero-desc">
+            An archive of <strong>experiments, prototypes and playable labs</strong> created for Computer Game Development 2026. Built with Godot Engine, exported to WebAssembly and playable directly inside the browser.
+          </p>
         </div>
-        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      </a>
 
-      <!-- Lab 2 -->
-      <div class="lab-card anim anim-d4" id="lab02-card" onclick="openModal()">
-        <div class="lab-num">02</div>
-        <div class="lab-info">
-          <h3>My First 2D Game <span class="sub-badge">2 ภารกิจ</span></h3>
-          <p>เกม 2D แรก — แบ่งเป็น 2 ภารกิจ (2.1 & 2.2)</p>
-          <div class="tags"><span class="tag">Godot 4</span><span class="tag">2D Game</span><span class="tag">Instancing</span></div>
+        <div class="hero-side-col">
+          <!-- Operator Dossier: Student Credentials & Tech Specs -->
+          <div class="operator-dossier">
+            <div class="dossier-header">
+              <span>OPERATOR DOSSIER</span>
+              <span class="dossier-id">ID // 663380639-0</span>
+            </div>
+            <div class="dossier-body">
+              <div class="dossier-name">นายรุ่งธรรม ล้อมในเมือง</div>
+              <div class="dossier-meta">KKU // COMPUTER SCIENCE & IT</div>
+              <div class="dossier-engine">CORE ENGINE: GODOT 4.X (WASM/COI)</div>
+            </div>
+          </div>
         </div>
-        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
 
-      <!-- Lab 3 -->
-      <a href="lab03/Lab-03.html" class="lab-card anim anim-d5" id="lab03-card">
-        <div class="lab-num">03</div>
-        <div class="lab-info">
-          <h3>2D RPG Movement</h3>
-          <p>เกม RPG 2D — ระบบการเคลื่อนที่และการโต้ตอบ</p>
-          <div class="tags"><span class="tag">Godot 4</span><span class="tag">2D RPG</span><span class="tag">Movement</span></div>
+      <!-- Telemetry Rack: HUD Stats -->
+      <div class="telemetry-bar anim-tactical anim-d2">
+        <div class="telemetry-cell">
+          <span class="tel-index">TEL.01 // TOTAL</span>
+          <div class="tel-val highlight">06</div>
+          <div class="tel-label">DEPLOYED LABS</div>
+          <div class="tel-sub">ภารกิจการทดลองทั้งหมด</div>
         </div>
-        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      </a>
+        
+        <div class="telemetry-cell">
+          <span class="tel-index">TEL.02 // KERNEL</span>
+          <div class="tel-val">GODOT</div>
+          <div class="tel-label">CORE ENGINE 4.X</div>
+          <div class="tel-sub">2D / 3D Game Engine</div>
+        </div>
 
-      <!-- Lab 4 -->
-      <div class="lab-card disabled anim anim-d6" id="lab04-card">
-        <div class="lab-num dim">04</div>
-        <div class="lab-info">
-          <h3>Lab 04</h3>
-          <p class="coming">🔒 Coming Soon — จะอัปเดตเมื่อมีผลงาน</p>
+        <div class="telemetry-cell">
+          <span class="tel-index">TEL.03 // TARGET</span>
+          <div class="tel-val">HTML5</div>
+          <div class="tel-label">WEB RUNTIME</div>
+          <div class="tel-sub">SharedArrayBuffer / WASM</div>
         </div>
-        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+
+        <div class="telemetry-cell">
+          <span class="tel-index">TEL.04 // CYCLE</span>
+          <div class="tel-val">2026</div>
+          <div class="tel-label">ACADEMIC YEAR</div>
+          <div class="tel-sub">Khon Kaen University</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lab Mission Selection Section -->
+    <section class="container">
+      <div class="section-head anim-tactical anim-d3">
+        <div class="section-head-title-wrap">
+          <div class="section-kicker">
+            <span>[ MISSION DIRECTORY ]</span>
+            <span>// OPERATION SELECT</span>
+          </div>
+          <h2>
+            LAB MODULES <span class="thai-sub">// เลือกภารกิจที่ต้องการเล่น</span>
+          </h2>
+        </div>
+        <div class="section-instructions">
+          <span>STATUS: ALL MODULES READY</span>
+          <span class="blink-arrow">▶▶</span>
+        </div>
       </div>
 
-      <!-- Lab 5 -->
-      <a href="lab05/3d.html" class="lab-card anim anim-d7" id="lab05-card">
-        <div class="lab-num">05</div>
-        <div class="lab-info">
-          <h3>3D Platformer</h3>
-          <p>เกม 3D แรก — 3D Platformer Starter บน Godot Engine</p>
-          <div class="tags"><span class="tag">Godot 4</span><span class="tag">3D Game</span><span class="tag">Platformer</span></div>
-        </div>
-        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      </a>
+      <!-- Labs Navigation Items -->
+      <div class="labs-list">
 
-      <!-- Lab 6 -->
-      <div class="lab-card disabled anim anim-d8" id="lab06-card">
-        <div class="lab-num dim">06</div>
-        <div class="lab-info">
-          <h3>Lab 06</h3>
-          <p class="coming">🔒 Coming Soon — จะอัปเดตเมื่อมีผลงาน</p>
+        <!-- Lab 01 -->
+        <a href="lab01/Lab01.html" class="lab-row anim-tactical anim-d4" id="lab01-card" onmouseenter="playHoverSound()">
+          <div class="lab-num-col">
+            <span class="lab-num">01</span>
+            <span class="lab-index-label">MISSION.01</span>
+          </div>
+          <div class="lab-content">
+            <div class="lab-mission-tag">
+              <span class="bullet"></span> FIRST CONTACT // SELF INTRODUCTION
+            </div>
+            <div class="lab-title-row">
+              <h3 class="lab-title">แนะนำตัวเอง</h3>
+            </div>
+            <p class="lab-desc">โปรเจกต์แรก — แนะนำตัวเองผ่าน Godot Engine ออกแบบระบบอินเตอร์เฟสและอนิเมชัน 2D</p>
+            <div class="lab-tags">
+              <span class="tag">Godot 4</span>
+              <span class="tag">2D Scene</span>
+              <span class="tag">Web Export</span>
+            </div>
+          </div>
+          <div class="lab-action-col">
+            <span class="lab-prompt">LAUNCH</span>
+            <div class="lab-arrow-btn">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Lab 02: Modal Trigger (2 Missions) -->
+        <div class="lab-row anim-tactical anim-d5" id="lab02-card" role="button" tabindex="0" onclick="openModal(); playSelectSound();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openModal();playSelectSound();}" onmouseenter="playHoverSound()">
+          <div class="lab-num-col">
+            <span class="lab-num">02</span>
+            <span class="lab-index-label">MISSION.02</span>
+          </div>
+          <div class="lab-content">
+            <div class="lab-mission-tag">
+              <span class="bullet"></span> DUAL PROTOCOL // 2 MISSIONS AVAILABLE
+            </div>
+            <div class="lab-title-row">
+              <h3 class="lab-title">My First 2D Game</h3>
+              <span class="sub-badge">2 ภารกิจ (2.1 & 2.2)</span>
+            </div>
+            <p class="lab-desc">เกม 2D แรก — แบ่งเป็น 2 ภารกิจ (2.1 Dynamic Instancing & 2.2 Scene State Transitions)</p>
+            <div class="lab-tags">
+              <span class="tag">Godot 4</span>
+              <span class="tag">2D Game</span>
+              <span class="tag">Instancing</span>
+              <span class="tag">Scene Management</span>
+            </div>
+          </div>
+          <div class="lab-action-col">
+            <span class="lab-prompt">SELECT</span>
+            <div class="lab-arrow-btn">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
         </div>
-        <div class="lab-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+
+        <!-- Lab 03 -->
+        <a href="lab03/Lab-03.html" class="lab-row anim-tactical anim-d6" id="lab03-card" onmouseenter="playHoverSound()">
+          <div class="lab-num-col">
+            <span class="lab-num">03</span>
+            <span class="lab-index-label">MISSION.03</span>
+          </div>
+          <div class="lab-content">
+            <div class="lab-mission-tag">
+              <span class="bullet"></span> TACTICAL NAVIGATION // TOP-DOWN RPG
+            </div>
+            <div class="lab-title-row">
+              <h3 class="lab-title">2D RPG Movement</h3>
+            </div>
+            <p class="lab-desc">เกม RPG 2D — ระบบการเคลื่อนที่และการโต้ตอบ Top-down Grid/Vector Movement & Collision</p>
+            <div class="lab-tags">
+              <span class="tag">Godot 4</span>
+              <span class="tag">2D RPG</span>
+              <span class="tag">Movement System</span>
+              <span class="tag">Physics</span>
+            </div>
+          </div>
+          <div class="lab-action-col">
+            <span class="lab-prompt">LAUNCH</span>
+            <div class="lab-arrow-btn">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Lab 04: Disabled / Coming Soon -->
+        <div class="lab-row disabled anim-tactical anim-d7" id="lab04-card" aria-disabled="true">
+          <div class="lab-num-col">
+            <span class="lab-num">04</span>
+            <span class="lab-index-label">MISSION.04</span>
+          </div>
+          <div class="lab-content">
+            <div class="lab-mission-tag">
+              <span class="bullet"></span> CLASSIFIED // UNDER DEVELOPMENT
+            </div>
+            <div class="lab-title-row">
+              <h3 class="lab-title">Lab 04</h3>
+            </div>
+            <p class="coming">🔒 STANDBY // จะอัปเดตเมื่อมีผลงานการทดลองใหม่</p>
+          </div>
+          <div class="lab-action-col">
+            <span class="lab-prompt">STANDBY</span>
+            <div class="lab-arrow-btn">
+              <svg viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lab 05 -->
+        <a href="lab05/3d.html" class="lab-row anim-tactical anim-d8" id="lab05-card" onmouseenter="playHoverSound()">
+          <div class="lab-num-col">
+            <span class="lab-num">05</span>
+            <span class="lab-index-label">MISSION.05</span>
+          </div>
+          <div class="lab-content">
+            <div class="lab-mission-tag">
+              <span class="bullet"></span> SPATIAL DIMENSION // 3D STARTER PROTOCOL
+            </div>
+            <div class="lab-title-row">
+              <h3 class="lab-title">3D Platformer</h3>
+            </div>
+            <p class="lab-desc">เกม 3D แรก — 3D Platformer Starter บน Godot Engine ระบบมุมกล้อง ฟิสิกส์ 3 มิติ</p>
+            <div class="lab-tags">
+              <span class="tag">Godot 4</span>
+              <span class="tag">3D Game</span>
+              <span class="tag">Platformer</span>
+              <span class="tag">WASM 3D</span>
+            </div>
+          </div>
+          <div class="lab-action-col">
+            <span class="lab-prompt">LAUNCH</span>
+            <div class="lab-arrow-btn">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Lab 06: Disabled / Coming Soon -->
+        <div class="lab-row disabled anim-tactical" id="lab06-card" aria-disabled="true">
+          <div class="lab-num-col">
+            <span class="lab-num">06</span>
+            <span class="lab-index-label">MISSION.06</span>
+          </div>
+          <div class="lab-content">
+            <div class="lab-mission-tag">
+              <span class="bullet"></span> CLASSIFIED // UNDER DEVELOPMENT
+            </div>
+            <div class="lab-title-row">
+              <h3 class="lab-title">Lab 06</h3>
+            </div>
+            <p class="coming">🔒 STANDBY // จะอัปเดตเมื่อมีผลงานการทดลองใหม่</p>
+          </div>
+          <div class="lab-action-col">
+            <span class="lab-prompt">STANDBY</span>
+            <div class="lab-arrow-btn">
+              <svg viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </section>
+  </main>
 
-    </div>
-  </section>
-
-  <!-- Lab 02 Modal -->
-  <div class="modal-overlay" id="lab02-modal">
+  <!-- Lab 02 Tactical Mission Select Modal -->
+  <div class="modal-overlay" id="lab02-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-box">
-      <div class="modal-head">
-        <h3>🎮 Lab 02 — เลือกภารกิจ</h3>
-        <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-top-bar">
+        <div class="modal-top-bar-title">
+          <span>// OPERATION PROTOCOL 02</span>
+        </div>
+        <div class="modal-top-bar-title">
+          <span>[ SELECT MODULE ]</span>
+        </div>
       </div>
-      <p class="modal-desc">My First 2D Game แบ่งเป็น 2 ภารกิจ — เลือกภารกิจที่ต้องการเล่น</p>
-      <div class="modal-opts">
-        <a href="lab02-1/game21.html" class="modal-opt" id="lab02-opt-21">
-          <div class="opt-icon">🕹️</div>
-          <div class="opt-info">
-            <h4>ภารกิจ 1: game21</h4>
-            <p>Instancing & Object สร้าง Object ซ้ำๆ แบบ Dynamic</p>
-          </div>
-          <div class="opt-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        </a>
-        <a href="lab02-2/game22.html" class="modal-opt" id="lab02-opt-22">
-          <div class="opt-icon">🎯</div>
-          <div class="opt-info">
-            <h4>ภารกิจ 2: game22</h4>
-            <p>Scene Management การจัดการ Scene ใน Godot</p>
-          </div>
-          <div class="opt-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        </a>
+
+      <div class="modal-content-area">
+        <div class="modal-head">
+          <h3 id="modal-title">LAB 02 // MODULE DISPATCH</h3>
+          <button class="modal-close" onclick="closeModal(); playCancelSound();" aria-label="Close Modal">
+            <span>[ ESC ] CLOSE</span>
+          </button>
+        </div>
+        
+        <p class="modal-desc">
+          My First 2D Game แบ่งการทดลองออกเป็น 2 ภารกิจ — กรุณาเลือกภารกิจที่ต้องการเปิดเล่น
+        </p>
+
+        <div class="modal-opts">
+          <!-- Mission 1: game21 -->
+          <a href="lab02-1/game21.html" class="modal-opt" id="lab02-opt-21" onmouseenter="playHoverSound()">
+            <div class="opt-number">02.1</div>
+            <div class="opt-info">
+              <h4>ภารกิจ 1: game21</h4>
+              <p>Instancing & Object — สร้าง Object ซ้ำๆ แบบ Dynamic และระบบควบคุมการเกิดของวัตถุ</p>
+              <div class="opt-meta-tag">[ GODOT 4 // INSTANCING PROTOCOL ]</div>
+            </div>
+            <div class="opt-arrow">
+              <span>LAUNCH</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+
+          <!-- Mission 2: game22 -->
+          <a href="lab02-2/game22.html" class="modal-opt" id="lab02-opt-22" onmouseenter="playHoverSound()">
+            <div class="opt-number">02.2</div>
+            <div class="opt-info">
+              <h4>ภารกิจ 2: game22</h4>
+              <p>Scene Management — การจัดการ Scene ใน Godot การสลับหน้าจอและสถานะเกม</p>
+              <div class="opt-meta-tag">[ GODOT 4 // SCENE STATE TRANSITION ]</div>
+            </div>
+            <div class="opt-arrow">
+              <span>LAUNCH</span>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        </div>
+
+        <div class="modal-foot-note">
+          <span>CLICK OUTSIDE OR PRESS <span class="esc-hint">[ESC]</span> TO CANCEL</span>
+          <span>DISPATCH READY</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="container">
-    <p>Computer Game Development 2026 — Built with <a href="https://godotengine.org" target="_blank" rel="noopener">Godot Engine</a></p>
+  <!-- Footer: Game Credits UI -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div class="footer-brand">
+            GAMEDEV <span>//</span> 2026 ARCHIVE
+          </div>
+          <div class="footer-sub">
+            วิชา Computer Game Development ภาควิชาวิทยาการคอมพิวเตอร์และสารสนเทศ มหาวิทยาลัยขอนแก่น
+          </div>
+          <div class="footer-sub">
+            พัฒนาโดย <strong>นายรุ่งธรรม ล้อมในเมือง</strong> (รหัสนักศึกษา 663380639-0)
+          </div>
+        </div>
+
+        <div class="footer-right">
+          <div class="footer-badge">
+            ENGINE CORE: <a href="https://godotengine.org" target="_blank" rel="noopener">GODOT ENGINE 4.X</a>
+          </div>
+          <div class="footer-credits">
+            © 2026 GAMEDEV LAB ARCHIVE // ALL RIGHTS RESERVED
+          </div>
+        </div>
+      </div>
+    </div>
   </footer>
 
+  <!-- Interactive Logic & Ambient Tactical Audio (Vanilla Web Audio API) -->
   <script>
+    // ── Modal Operations (Preserving exact original functions) ──
     function openModal() {
-      document.getElementById('lab02-modal').classList.add('active');
+      const modal = document.getElementById('lab02-modal');
+      modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      // Focus on first option for accessibility
+      const firstOpt = document.getElementById('lab02-opt-21');
+      if (firstOpt) firstOpt.focus();
     }
+
     function closeModal() {
-      document.getElementById('lab02-modal').classList.remove('active');
+      const modal = document.getElementById('lab02-modal');
+      modal.classList.remove('active');
       document.body.style.overflow = '';
+      const trigger = document.getElementById('lab02-card');
+      if (trigger) trigger.focus();
     }
+
     document.getElementById('lab02-modal').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
+      if (e.target === this) {
+        closeModal();
+        playCancelSound();
+      }
     });
+
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('lab02-modal');
+        if (modal.classList.contains('active')) {
+          closeModal();
+          playCancelSound();
+        }
+      }
     });
+
+    // ── Ambient Tactical Audio (Web Audio API Synthesizer - 0 external files) ──
+    let audioCtx = null;
+    let sfxEnabled = true;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+          audioCtx = new AudioContext();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Prime audio context on first user gesture
+    document.addEventListener('pointerdown', () => { getAudioContext(); }, { once: true });
+
+    function toggleAudio() {
+      sfxEnabled = !sfxEnabled;
+      const statusEl = document.getElementById('soundStatus');
+      const btn = document.getElementById('soundToggle');
+      if (sfxEnabled) {
+        statusEl.textContent = 'SFX ON';
+        btn.classList.add('active');
+        playSelectSound();
+      } else {
+        statusEl.textContent = 'SFX OFF';
+        btn.classList.remove('active');
+      }
+    }
+
+    // High-tech subtle UI hover blip (soft frequency sweep)
+    function playHoverSound() {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.04);
+        gain.gain.setValueAtTime(0.015, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.04);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.05);
+      } catch (e) {
+        // Audio error ignored safely
+      }
+    }
+
+    // High-tech crisp UI confirmation sound
+    function playSelectSound() {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, ctx.currentTime);
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.04);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.13);
+      } catch (e) {
+        // Audio error ignored safely
+      }
+    }
+
+    // Cancel / Close subtle thud
+    function playCancelSound() {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + 0.06);
+        gain.gain.setValueAtTime(0.03, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.07);
+      } catch (e) {
+        // Audio error ignored safely
+      }
+    }
   </script>
 
 </body>
