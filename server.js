@@ -7,7 +7,7 @@ const https = require('https');
 
 // ── Config ──
 const DOCS_DIR = path.join(__dirname, 'docs');
-const PORT = 8080;
+const PORT = parseInt(process.env.PORT, 10) || 8080;
 
 // ── MIME types ──
 const MIME = {
