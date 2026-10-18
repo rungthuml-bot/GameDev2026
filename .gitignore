@@ -1,0 +1,9 @@
+# Godot cache
+.godot/
+
+# Temp / Backup
+*.bak
+*.tmp
+
+# Exclude untracked 3DGame build
+docs/3DGame/

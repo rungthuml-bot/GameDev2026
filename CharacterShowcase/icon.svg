@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="16" fill="#1a1a2e"/>
+  <circle cx="64" cy="52" r="28" fill="none" stroke="#7c3aed" stroke-width="4"/>
+  <circle cx="64" cy="52" r="16" fill="#7c3aed" opacity="0.3"/>
+  <path d="M40 88 Q64 72 88 88" stroke="#a78bfa" stroke-width="3" fill="none"/>
+  <text x="64" y="116" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="Arial">SHOWCASE</text>
+</svg>
